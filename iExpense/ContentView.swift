@@ -52,22 +52,40 @@ struct ContentView: View {
                             Text(item.type)
                         }
                         Spacer()
-                        Text("₹\(item.amount)")
+                        if (item.amount)<=1000{
+                            Text("₹\(item.amount)")
+                                .font(.title3)
+                                .foregroundColor(.green)
+                                
+                        }else if (item.amount)>1000 && (item.amount)<=10000{
+                            Text("₹\(item.amount)")
+                                .font(.title2)
+                                .foregroundColor(.orange)
+                        }else{
+                            Text("₹\(item.amount)")
+                                .foregroundColor(.red)
+                                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                        }
+                        
                     }
                 }
                 .onDelete(perform: removeItems)
             }
             .navigationBarTitle("iExpense")
-            .navigationBarItems(trailing:
-                    Button(action: {
-                        showingAddView=true
-                    }, label: {
-                        Image(systemName: "plus")
-                })
-            )
             .sheet(isPresented: $showingAddView){
                 AddView(expense: expenses)
             }
+            .navigationBarItems(trailing: HStack{
+                EditButton()
+                Spacer()
+                Button(action: {
+                    showingAddView=true
+                }, label: {
+                    Text("+ Add")
+                        .padding(4)
+                        .border(Color.blue)
+                })
+            })
         }
     }
     
